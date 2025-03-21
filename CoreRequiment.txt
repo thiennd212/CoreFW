@@ -1,0 +1,90 @@
+Technical
+	ABP Framework
+	Blazor
+	Devexpress
+	MySQL, SQL Server (swicth option)
+	Solid Architecture (Built with best practices)
+		Clean source code in a well-defined solution structure
+		Layered & modular architecture
+		Domain Driven Design implementation
+		Dependency injection everywhere
+	Based on Strong Frameworks (Built on tools you already know)
+		.NET Core 8.x (cross-platform support)
+		ASP.NET Core / ASP.NET MVC & Web API
+		EntityFramework Code-First and Migrations
+		Bootstrap, AutoMapper...
+	Based on Metronic Theme (The world's most trusted UI theme)		
+Feature
+	Multi-Tenancy (Complete SaaS development kit)
+		Tenant and Edition (package) management for SaaS applications
+		Subscription management & recurring payments
+		PayPal & Stripe integration
+		Basic invoice for payments
+		Dashboard for edition, tenant & income statistics
+		Single database, database per tenant and hybrid database suppor
+		Custom tenant logo and CSS support
+		Can work in multi-tenant and single-tenant modes
+	Authentication & Authorization (Rich login options and complete authorization system)
+		Based on ASP.NET Identity Framework
+		User & role management pages
+		Hierarchical organization units system to group users and entities
+		User login, register, password-reset and email validation pages
+		User, role and permission based flexible authorization
+		User and Tenant impersonation
+		User account linking
+		Two Factor Authentication (Email, SMS, Google Authenticator)
+		User Lockout
+		LDAP(and LDAPS)/Active Directory login support
+		Active Directory Federation Service (ADFS) Authentication
+		Social media logins (Facebook, Twitter, Google+ and Microsoft Account implemented)
+		OpenId Connect Authentication
+		Log and show all login attempts for users
+		Password complexity settings
+		Automatic Cross-Site Request Forgery (CSRF) protection
+		OpenIddict integration
+		User Delegation
+		Session Timeout and Lock Screen
+		Multitenant LDAP support
+	HTTP API (API for Clients)
+		HTTP/REST API for all the application functionalities.
+		GraphQL API infrastructure for 3rd-party clients.
+	Dynamic UI Localization (Control Localization in your application)
+		Fully localized UI
+		Can add, remove and translate languages on UI
+		RTL and LTR support
+		English, VietName, Chinese localizations are included
+	Setting Management (Manage the application settings)
+		Host & tenant-specific setting pages
+		Hierarchical setting management infrastructure
+		Easily configurable
+	Cross-Cutting Concerns (Automates repeating tasks... DRY!)
+		Validation
+		Logging
+		Exception handling
+		Caching
+		Automatic audit/security logging
+		Automatic database connection management and unit of work implementation
+		Periodic Audit Log Deletion
+	Automated Testing (Testabiliy is so important)
+		Testable architecture
+		Includes unit & integration test written with xUnit
+		Includes UI tests written with Playwright
+	Other highlights
+		Webhook Feature
+		Dynamic Entity Properties
+		Pre-configured to deploy as Docker containers
+		Real-time push notification system (with SignalR integration)
+		Real-time chat system (with SignalR integration)
+		Background job system (with Hangfire integration)
+		Multiple time zone support for application, tenants and users
+		Twilio integration option for sending SMS
+		Show and download logs from UI
+		Built-in global event bus for server-side events with pre-defined events for entity changes)
+		Show entity histories
+		Cookie consent & download users collected data (GDPR)
+		Application setup screen
+		Personalization of layout, header, menu and footer per user
+		Swagger integration
+		Tested on major PAAS providers (Azure, AWS)
+		Healthchecks
+		Helm charts for deployment
