@@ -1,7 +1,11 @@
-﻿using System;
-using System.IO;
-using Blazorise.Bootstrap5;
+﻿using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
+using CoreFW.Blazor.Components;
+using CoreFW.Blazor.Menus;
+using CoreFW.Blazor.Theme;
+using CoreFW.EntityFrameworkCore;
+using CoreFW.Localization;
+using CoreFW.MultiTenancy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
@@ -10,37 +14,29 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using CoreFW.Blazor.Components;
-using CoreFW.Blazor.Menus;
-using CoreFW.EntityFrameworkCore;
-using CoreFW.Localization;
-using CoreFW.MultiTenancy;
 using OpenIddict.Validation.AspNetCore;
+using System;
+using System.IO;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
-using Volo.Abp.AspNetCore.Components.Web;
 using Volo.Abp.AspNetCore.Components.Server.BasicTheme;
-using Volo.Abp.AspNetCore.Components.Server.BasicTheme.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
+using Volo.Abp.AspNetCore.Components.Web;
 using Volo.Abp.AspNetCore.Components.Web.Theming.Routing;
+using Volo.Abp.AspNetCore.Components.Web.Theming.Theming;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity.Blazor.Server;
 using Volo.Abp.Modularity;
+using Volo.Abp.OpenIddict;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement.Blazor.Server;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.Blazor.Server;
-using Volo.Abp.OpenIddict;
-using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
@@ -55,11 +51,12 @@ namespace CoreFW.Blazor;
     typeof(AbpSwashbuckleModule),
     typeof(AbpAspNetCoreSerilogModule),
     typeof(AbpAccountWebOpenIddictModule),
-    typeof(AbpAspNetCoreComponentsServerBasicThemeModule),
-    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
     typeof(AbpIdentityBlazorServerModule),
     typeof(AbpTenantManagementBlazorServerModule),
-    typeof(AbpSettingManagementBlazorServerModule)
+    typeof(AbpSettingManagementBlazorServerModule),
+    typeof(AbpAspNetCoreComponentsServerBasicThemeModule),
+    typeof(AbpAspNetCoreMvcUiBasicThemeModule),
+    typeof(AbpAspNetCoreMvcUiBundlingModule)
    )]
 public class CoreFWBlazorModule : AbpModule
 {
@@ -125,6 +122,13 @@ public class CoreFWBlazorModule : AbpModule
             options.SizeMode = DevExpress.Blazor.SizeMode.Medium;
         });
 
+        // Đăng ký Theme tùy chỉnh
+        context.Services.Configure<AbpThemingOptions>(options =>
+        {
+            options.Themes.Add<CoreFWTheme>();
+            options.DefaultThemeName = "CoreFW";
+        });
+
         ConfigureAuthentication(context);
         ConfigureUrls(configuration);
         ConfigureBundles();
@@ -159,25 +163,23 @@ public class CoreFWBlazorModule : AbpModule
     {
         Configure<AbpBundlingOptions>(options =>
         {
-            // MVC UI
-            options.StyleBundles.Configure(
-                BasicThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/global-styles.css");
-                }
-            );
+            // Đăng ký bundle riêng cho CoreFW Theme
+            options.StyleBundles.Add(CoreFWThemeBundles.Styles.Global);
+            options.StyleBundles.Get(CoreFWThemeBundles.Styles.Global)
+                .AddFiles("/css/base/variables.css")
+                .AddFiles("/css/base/reset.css")
+                .AddFiles("/css/layout/layout.css")
+                .AddFiles("/css/layout/header.css")
+                .AddFiles("/css/layout/sidebar.css")
+                .AddFiles("/css/layout/footer.css")
+                .AddFiles("/css/components/components.css")
+                .AddFiles("/blazor-global-styles.css")
+                //You can remove the following line if you don't use Blazor CSS isolation for components
+                .AddFiles(new BundleFile("/CoreFW.Blazor.styles.css", true));
 
-            //BLAZOR UI
-            options.StyleBundles.Configure(
-                BlazorBasicThemeBundles.Styles.Global,
-                bundle =>
-                {
-                    bundle.AddFiles("/blazor-global-styles.css");
-                    //You can remove the following line if you don't use Blazor CSS isolation for components
-                    bundle.AddFiles(new BundleFile("/CoreFW.Blazor.styles.css", true));
-                }
-            );
+            options.ScriptBundles.Add(CoreFWThemeBundles.Scripts.Global);
+            options.ScriptBundles.Get(CoreFWThemeBundles.Scripts.Global)
+                .AddFiles("/js/layout.js");
         });
     }
 

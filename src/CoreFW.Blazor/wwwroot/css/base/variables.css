@@ -1,0 +1,58 @@
+:root {
+  /* Màu sắc chính */
+  --primary: #009ef7;
+  --secondary: #7E8299;
+  --success: #50cd89;
+  --info: #7239ea;
+  --warning: #ffc700;
+  --danger: #f1416c;
+  --light: #F9F9F9;
+  --dark: #181C32;
+
+  /* Màu nền */
+  --body-bg: #f5f8fa;
+  --header-bg: #1e1e2d;
+  --sidebar-bg: #1e1e2d;
+  --footer-bg: #1e1e2d;
+
+  /* Typography */
+  --font-family: 'Poppins', sans-serif;
+  --font-size-base: 13px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+  --font-weight-bolder: 700;
+
+  /* Bán kính viền */
+  --border-radius: 0.475rem;
+  --border-radius-sm: 0.275rem;
+  --border-radius-lg: 0.675rem;
+  --border-radius-pill: 50rem;
+
+  /* Z-index */
+  --z-sidebar: 1000;
+  --z-header: 1010;
+  --z-dropdown: 1020;
+  --z-modal: 1100;
+
+  /* Kích thước khoảng cách */
+  --spacer: 1rem;
+  --spacer-sm: 0.5rem;
+  --spacer-lg: 1.5rem;
+  --spacer-xl: 3rem;
+
+  /* Layout */
+  --header-height: 65px;
+  --sidebar-width: 265px;
+  --footer-height: 60px;
+
+  /* Hiệu ứng */
+  --transition-base: all 0.2s ease;
+  --box-shadow-sm: 0 0.1rem 1rem 0.25rem rgba(0, 0, 0, 0.05);
+  --box-shadow: 0 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.075);
+  --card-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+  
+  /* Viền */
+  --border-color: #eff2f5;
+  --border-width: 1px;
+} 

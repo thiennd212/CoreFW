@@ -1,0 +1,118 @@
+@using Volo.Abp.UI.Navigation
+@inherits CoreFWComponentBase
+
+<ul class="nav-menu">
+    @if (Menu != null && Menu.Items != null)
+    {
+        foreach (var menuItem in Menu.Items)
+        {
+            var hasSubItems = menuItem.Items != null && menuItem.Items.Any();
+            var isActive = IsMenuActive(menuItem);
+            var isExpanded = IsMenuExpanded(menuItem, isActive);
+            
+            <li class="nav-item @(isActive ? "active" : "")">
+                @if (!string.IsNullOrEmpty(menuItem.Url))
+                {
+                    <a href="@menuItem.Url" class="nav-link">
+                        @if (!string.IsNullOrEmpty(menuItem.Icon))
+                        {
+                            <i class="@menuItem.Icon"></i>
+                        }
+                        <span>@menuItem.DisplayName</span>
+                        @if (hasSubItems)
+                        {
+                            <i class="fas fa-chevron-right nav-arrow"></i>
+                        }
+                    </a>
+                }
+                else
+                {
+                    <a href="javascript:void(0);" class="nav-link" @onclick="() => ToggleSubMenu(menuItem)">
+                        @if (!string.IsNullOrEmpty(menuItem.Icon))
+                        {
+                            <i class="@menuItem.Icon"></i>
+                        }
+                        <span>@menuItem.DisplayName</span>
+                        @if (hasSubItems)
+                        {
+                            <i class="fas fa-chevron-right nav-arrow @(isExpanded ? "expanded" : "")"></i>
+                        }
+                    </a>
+                }
+                
+                @if (hasSubItems)
+                {
+                    <ul class="nav-submenu @(isExpanded ? "show" : "")">
+                        @foreach (var childItem in menuItem.Items)
+                        {
+                            var childIsActive = IsMenuActive(childItem);
+                            
+                            <li class="nav-item @(childIsActive ? "active" : "")">
+                                <a href="@(childItem.Url ?? "javascript:void(0);")" class="nav-link">
+                                    @if (!string.IsNullOrEmpty(childItem.Icon))
+                                    {
+                                        <i class="@childItem.Icon"></i>
+                                    }
+                                    <span>@childItem.DisplayName</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public ApplicationMenu Menu { get; set; } = null!;
+    
+    private Dictionary<string, bool> _expandedItems = new Dictionary<string, bool>();
+    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    
+    private bool IsMenuActive(ApplicationMenuItem menuItem)
+    {
+        if (string.IsNullOrEmpty(menuItem.Url))
+        {
+            return false;
+        }
+        
+        return NavigationManager.Uri.EndsWith(menuItem.Url, StringComparison.OrdinalIgnoreCase);
+    }
+    
+    private bool IsMenuExpanded(ApplicationMenuItem menuItem, bool isActive)
+    {
+        if (isActive)
+        {
+            return true;
+        }
+        
+        if (_expandedItems.TryGetValue(menuItem.Name, out bool isExpanded))
+        {
+            return isExpanded;
+        }
+        
+        if (menuItem.Items != null && menuItem.Items.Any(i => IsMenuActive(i)))
+        {
+            _expandedItems[menuItem.Name] = true;
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private void ToggleSubMenu(ApplicationMenuItem menuItem)
+    {
+        if (!_expandedItems.TryGetValue(menuItem.Name, out bool isExpanded))
+        {
+            isExpanded = false;
+        }
+        
+        _expandedItems[menuItem.Name] = !isExpanded;
+    }
+} 

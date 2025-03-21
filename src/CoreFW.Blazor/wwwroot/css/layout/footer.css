@@ -1,0 +1,27 @@
+/* Footer styles */
+.app-footer {
+  height: var(--footer-height);
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--border-color);
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: var(--sidebar-width);
+}
+
+.footer-copyright {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.footer-version {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+@media (max-width: 767.98px) {
+  .app-footer {
+    margin-left: 0;
+  }
+} 
